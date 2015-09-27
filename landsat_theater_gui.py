@@ -60,9 +60,9 @@ class SetupFrame(wx.Frame):
             (self.displaybutton, 0, wx.EXPAND)])
 
         
-        self.locationctl.SetValue('Deadhorse, AK')
+        self.locationctl.SetValue('Bettles, AK')
         self.startctl.SetValue('03/01/2015')
-        self.endctl.SetValue('09/01/2015')
+        self.endctl.SetValue('08/01/2015')
         self.maxclouds.SetValue('30')
         self.maxrecords.SetValue('10')
         
@@ -80,7 +80,7 @@ class SetupFrame(wx.Frame):
         maxrecords = self.maxrecords.GetValue()
         maxclouds = self.maxclouds.GetValue()
         records = landsat_search(location, startdate = startdate, enddate = enddate, maxcloud = maxclouds, maxreturns = maxrecords)    
-        #landsat_download(records)
+        landsat_download(records)
         annotate_landsat_images(records, location = location)
     
     def displayClick(self, event):
@@ -94,7 +94,7 @@ class SetupFrame(wx.Frame):
         print 'found {} records matching search'.format(len(records))
         spawn_landsat_displays(records) 
 
-def spawn_landsat_displays(records, fullscreen = False, eog = False):
+def spawn_landsat_displays(records, fullscreen = False, eog = True):
     windows = []
     for (i,record) in enumerate(records):
         imgname = record_image_filename(record, 'annotated')

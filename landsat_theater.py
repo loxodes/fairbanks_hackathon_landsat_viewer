@@ -130,7 +130,7 @@ def record_image_filename(record, imgdir, band = '432'):
     return full_filename
 
 # annotate processed images with date and location, then save them to ANNOTATED_DIR
-def annotate_landsat_images(landsat_records, bands = '432', location = '', downsize = False, tile = True):
+def annotate_landsat_images(landsat_records, bands = '432', location = '', downsize = False, tile = False):
     for record in landsat_records:
         print('annotating {}'.format(record['date']))
         filename = record_image_filename(record, PROCESSED_DIR)
@@ -157,7 +157,7 @@ def annotate_landsat_images(landsat_records, bands = '432', location = '', downs
             tiledir = os.path.join(TILE_DIR, tilename)
             if not os.path.exists(tiledir):
                 os.makedirs(tiledir)
-            command = ['tileup', '--in', outfile, '--output-dir', tiledir, '--prefix', tilename, '--verbose', '--auto-zoom', '8']
+            command = ['tileup', '--in', outfile, '--output-dir', tiledir, '--prefix', tilename, '--verbose', '--auto-zoom', '6']
             output = subprocess.check_output(command)
 
 
