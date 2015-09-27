@@ -80,7 +80,7 @@ class SetupFrame(wx.Frame):
         maxrecords = self.maxrecords.GetValue()
         maxclouds = self.maxclouds.GetValue()
         records = landsat_search(location, startdate = startdate, enddate = enddate, maxcloud = maxclouds, maxreturns = maxrecords)    
-        landsat_download(records)
+        #landsat_download(records)
         annotate_landsat_images(records, location = location)
     
     def displayClick(self, event):

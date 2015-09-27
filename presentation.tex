@@ -28,65 +28,72 @@
     \begin{frame}
         \frametitle{Landsat Theater gathers, process, and displays NASA Landsat imagery}
         \begin{itemize}
-            \item Wireless sensor networks operate unattended in hostile environments.
-            \item Failures in sensor nodes can result environmental impact, loss of life, or loss of money. 
-            \item ``Fault Diagnosis in Wireless Sensor Networks: A Survey'' surveys approaches to detecting faulty sensor nodes.
+            \item Landsat images Earth every 16 days in a sun-synchronous orbit.
+            \item Data is available freely online on AWS (https://aws.amazon.com/public-data-sets/landsat/)
+            \item Imagery could be useful for understanding natural disasters, looking at vegetation, entertainment.
         \end{itemize}
 
-        \begin{block}{What can we do about faults?}
-            \begin{description}
-                \item[Fault Detection] is deciding if a specific node is faulty
-                \item[Fault Diagnosis] is locating all faulty nodes in a network
-                \item[Fault Identification] is estimating the severity and type of a fault
-            \end{description}
-        \end{block}
-
+        \includegraphics[width=.45\paperheight]{figures/landsatcolorado.jpg}
     \end{frame}
  
+    \begin{frame}
+        \frametitle{Landsat is a NASA satellite which captures images of the Earth.}
+            \begin{figure}
+            \includegraphics[width=.40\paperheight]{figures/groundlandsat.jpg}
+            \caption{Landsat 8 from https://en.wikipedia.org/wiki/Landsat\_8}
+            \end{figure}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{The camera captures nine different wavelengths (3 visible, 3 infrared, panchromatic, and 2 for clouds)}
+            \begin{figure}
+            \includegraphics[width=.9\paperheight]{figures/landsatimager.jpg}
+         \end{figure}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{I created a Landsat Theater, a tool for downloading, processing, annotating landsat images}
+            \begin{itemize}
+                \item The multiple displays in the decision theater are used to visualize a place through time
+                \item Landsat Theater downloads and processes imagery over a given location and annotates the images with metadata.
+                \item The tool can display the images (working), or display the images with synchronized interactive zoom (in progress.. any of y'all know javascript?)
+            \end{itemize}
+         \end{figure}
+    \end{frame}
+
     \begin{frame}
         \frametitle{For software design, I glued together a bunch of open source libraries..}
         \begin{description}
             \item[geopy] for converting cities or addresses to latitude and longitude
             \item[landsat-utils] for downloading and processing landsat data
-            \item[Python Image Library] for annotating landsat images with captions
-            \item[pyglet] for displaying annotated images
-            \item[wx] for the GUI
+            \item[PIL] (Python Image Library) for annotating landsat images with captions
+            \item[tileup] for tiling
+            \item[wx] for the searching, downloading, and processing GUI
+            \item[leafletjs] for displaying images with synchronized interactive zooming (in progress)
         \end{description}
     \end{frame}
  
     \begin{frame}
         \frametitle{Landsat Theater could be extended...}
         \begin{itemize}
-            \item The tool could clean up after itself, it can easily fill up a hard drive..
+            \item The tool could clean up after itself better, it can easily fill up a hard drive..
             \item The tool lacks error handling and input sanitation.. 
             \item Landsat produces hyperspectral images, some wavelengths could be useful for comparing vegetation
-            \item A zoom feature synchronized across all displays would be cool
+            \item Finishing the interactive zoom would be great.
         \end{itemize}
     \end{frame}
 
     \begin{frame}
-        \frametitle{Landsat is a NASA satellite which captures images of the Earth.}
-            \begin{figure}
-            \includegraphics[width=.75\paperheight]{figures/groundlandsat.jpg}
-            \caption{Landsat 8 from https://en.wikipedia.org/wiki/Landsat\_8}
-            \end{figure}
+        \frametitle{Demo Time!}
+            \includegraphics[width=3in]{figures/gui.png}
+            \includegraphics[width=3in]{figures/gui.png}
+            \includegraphics[width=3in]{figures/gui.png}
     \end{frame}
-
-    \begin{frame}
-        \frametitle{The imager }
-            \begin{figure}
-            \includegraphics[width=.6\paperheight]{figures/landsatimager.jpg}
-            \caption{Watchdog fault diagnosis, node A watches node B relay data to node C [1]}
-         \end{figure}
-
-
-    \end{frame}
-
-
     
     \begin{frame}
         \frametitle{Questions?}
-        1) Mahapatro, A.; Khilar, P.M., "Fault Diagnosis in Wireless Sensor Networks: A Survey," in Communications Surveys & Tutorials, IEEE , vol.15, no.4, pp.2000-2026, Fourth Quarter 2013
+        My software is available under an open source license on GitHub:
+        https://github.com/loxodes/fairbanks\_hackathon\_landsat\_viewer
     \end{frame}
 
 \end{document}

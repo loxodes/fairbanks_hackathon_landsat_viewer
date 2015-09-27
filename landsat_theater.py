@@ -25,7 +25,7 @@ LABEL_SIZE = 400
 
 PROCESSED_DIR = 'processed'
 ANNOTATED_DIR = 'annotated'
-
+TILE_DIR = '/home/kleinjt/repos/fairbanks_hackathon_landsat_viewer/Leaflet.Zoomify/tile_data'
 ansi_escape = re.compile(r'\x1b[^m]*m') # regular expression to strip coloring from landsat return
 
 
@@ -117,7 +117,10 @@ def landsat_download(landsat_records, bands = None, process = True, pansharpen =
 
 # find filename for landsat record image, create directory structure if it doesn't exist
 def record_image_filename(record, imgdir, band = '432'):
-    filename = '{}_bands_{}.TIF'.format(record['sceneID'], band)
+    ext = 'TIF'
+    if imgdir == ANNOTATED_DIR:
+        ext = 'PNG' 
+    filename = '{}_bands_{}.{}'.format(record['sceneID'], band, ext)
     directory = os.path.join(LANDSAT_DATA_PATH, imgdir, record['sceneID'])
         
     if not os.path.exists(directory):
@@ -127,7 +130,7 @@ def record_image_filename(record, imgdir, band = '432'):
     return full_filename
 
 # annotate processed images with date and location, then save them to ANNOTATED_DIR
-def annotate_landsat_images(landsat_records, bands = '432', location = '', downsize = .5):
+def annotate_landsat_images(landsat_records, bands = '432', location = '', downsize = False, tile = True):
     for record in landsat_records:
         print('annotating {}'.format(record['date']))
         filename = record_image_filename(record, PROCESSED_DIR)
@@ -145,9 +148,18 @@ def annotate_landsat_images(landsat_records, bands = '432', location = '', downs
         # resize image for less memory usage..
         if downsize:
             newsize = (record_image.width * downsize, record_image.height * downsize)
-            image.resize(newsize)
+            record_image.resize(newsize)
 
-        record_image.save(outfile, 'TIFF') 
+        record_image.save(outfile, 'png') 
+    
+        if tile:
+            tilename = record['sceneID']
+            tiledir = os.path.join(TILE_DIR, tilename)
+            if not os.path.exists(tiledir):
+                os.makedirs(tiledir)
+            command = ['tileup', '--in', outfile, '--output-dir', tiledir, '--prefix', tilename, '--verbose', '--auto-zoom', '8']
+            output = subprocess.check_output(command)
+
 
 if __name__ == '__main__':
     # see https://pyglet.readthedocs.org/en/latest/programming_guide/windowing.html
