@@ -60,11 +60,11 @@ class SetupFrame(wx.Frame):
             (self.displaybutton, 0, wx.EXPAND)])
 
         
-        self.locationctl.SetValue('Bettles, AK')
-        self.startctl.SetValue('09/01/2014')
+        self.locationctl.SetValue('Deadhorse, AK')
+        self.startctl.SetValue('03/01/2015')
         self.endctl.SetValue('09/01/2015')
-        self.maxclouds.SetValue('100')
-        self.maxrecords.SetValue('20')
+        self.maxclouds.SetValue('30')
+        self.maxrecords.SetValue('10')
         
         self.downloadbutton.Bind(wx.EVT_BUTTON, self.downloadClick)
         self.displaybutton.Bind(wx.EVT_BUTTON, self.displayClick)
@@ -94,15 +94,19 @@ class SetupFrame(wx.Frame):
         print 'found {} records matching search'.format(len(records))
         spawn_landsat_displays(records) 
 
-def spawn_landsat_displays(records, fullscreen = False):
+def spawn_landsat_displays(records, fullscreen = False, eog = False):
     windows = []
-    for record in records:
+    for (i,record) in enumerate(records):
         imgname = record_image_filename(record, 'annotated')
-        command = ['eog', imgname, '--new-instance']
-        if fullscreen:
-            command.append('--fullscreen')
-        subprocess.Popen(command)
 
+        if eog:
+            command = ['eog', imgname, '--new-instance']
+            if fullscreen:
+                command.append('--fullscreen')
+            subprocess.Popen(command)
+        else:
+            command = ['cp', imgname, 'images/screen{}'.format(i)]
+            subprocess.Popen(command)
         
         
 
